@@ -12,9 +12,9 @@ public class Promotions {
         this.promotions = promotions;
     }
 
-    public Promotion findByName(String name) {
+    public Promotion findNullablePromotionByName(String name) {
         return promotions.stream()
-                .filter(promotion -> promotion.isNameEqual(name))
+                .filter(promotion -> promotion.isNameEquals(name))
                 .findFirst()
                 .orElse(null);
     }

@@ -24,16 +24,16 @@ public class Products {
                 .toList();
 
         List<Product> soldOutGeneralProducts = getPromotionProducts().products.stream()
-                .filter(product -> !hasGeneralProductByName(product.getName()))
-                .map(product -> new Product(product.getName(), product.getPrice(), 0, null))
+                .filter(product -> !hasGeneralProduct(product))
+                .map(Product::createEmptyGeneralProduct)
                 .toList();
 
         return new Products(Stream.concat(generalProducts.stream(), soldOutGeneralProducts.stream()).toList());
     }
 
-    private boolean hasGeneralProductByName(String productName) {
+    private boolean hasGeneralProduct(Product product) {
         return products.stream()
                 .filter(Product::isGeneralProduct)
-                .anyMatch(product -> product.getName().equals(productName));
+                .anyMatch(compared -> compared.isNameEquals(product));
     }
 }

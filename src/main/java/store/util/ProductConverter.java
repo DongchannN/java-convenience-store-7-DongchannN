@@ -29,7 +29,7 @@ public class ProductConverter {
         int stock = parseInteger(rawProduct.get(STOCK_INDEX));
         String promotionName = rawProduct.get(PROMOTION_INDEX).trim();
 
-        return new Product(name, price, stock, promotions.findByName(promotionName));
+        return Product.of(name, price, stock, promotions.findNullablePromotionByName(promotionName));
     }
 
     private static void validateRawProducts(List<List<String>> rawPromotions) {

@@ -9,7 +9,7 @@ public class Promotion {
     private final LocalDateTime startAt;
     private final LocalDateTime endAt;
 
-    public Promotion(String name, int buyAmount, int giveAmount, LocalDateTime startAt, LocalDateTime endAt) {
+    private Promotion(String name, int buyAmount, int giveAmount, LocalDateTime startAt, LocalDateTime endAt) {
         validateBuyAmount(buyAmount);
         validateGiveAmount(giveAmount);
         this.name = name;
@@ -19,7 +19,15 @@ public class Promotion {
         this.endAt = endAt;
     }
 
-    public boolean isNameEqual(String name) {
+    public static Promotion of(String name,
+                               int buyAmount,
+                               int giveAmount,
+                               LocalDateTime startAt,
+                               LocalDateTime endAt) {
+        return new Promotion(name, buyAmount, giveAmount, startAt, endAt);
+    }
+
+    public boolean isNameEquals(String name) {
         return this.name.equals(name);
     }
 

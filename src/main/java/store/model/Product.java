@@ -6,7 +6,7 @@ public class Product {
     private final int stock;
     private final Promotion promotion;
 
-    public Product(String name, int price, int stock, Promotion promotion) {
+    private Product(String name, int price, int stock, Promotion promotion) {
         validatePrice(price);
         validateStock(stock);
         this.name = name;
@@ -15,12 +15,16 @@ public class Product {
         this.promotion = promotion;
     }
 
-    public String getName() {
-        return name;
+    public static Product of(String name, int price, int stock, Promotion promotion) {
+        return new Product(name, price, stock, promotion);
     }
 
-    public int getPrice() {
-        return price;
+    public static Product createEmptyGeneralProduct(Product product) {
+        return new Product(product.name, product.price, 0, null);
+    }
+
+    public boolean isNameEquals(Product product) {
+        return this.name.equals(product.name);
     }
 
     public boolean isGeneralProduct() {

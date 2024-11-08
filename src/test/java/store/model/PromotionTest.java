@@ -14,21 +14,21 @@ public class PromotionTest {
     public void 프로모션_정상_생성() {
         Assertions.assertThatNoException()
                 .isThrownBy(() ->
-                        new Promotion("hello", 1, 1, DateTimes.now(), DateTimes.now()));
+                        Promotion.of("hello", 1, 1, DateTimes.now(), DateTimes.now()));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {0, -1, -100})
     public void 프로모션_구매개수_0이하시_예외_발생(int buyAmount) {
         Assertions.assertThatThrownBy(() ->
-                        new Promotion("hello", buyAmount, 1, DateTimes.now(), DateTimes.now()))
+                        Promotion.of("hello", buyAmount, 1, DateTimes.now(), DateTimes.now()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void 프로모션_증정개수_1아닐시_예외_발생() {
         Assertions.assertThatThrownBy(() ->
-                        new Promotion("hello", 1, 2, DateTimes.now(), DateTimes.now()))
+                        Promotion.of("hello", 1, 2, DateTimes.now(), DateTimes.now()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

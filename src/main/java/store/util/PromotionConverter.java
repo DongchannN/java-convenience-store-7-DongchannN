@@ -33,7 +33,7 @@ public class PromotionConverter {
         LocalDateTime startAt = parseLocalDateTime(rawPromotion.get(START_AT_INDEX));
         LocalDateTime endAt = parseLocalDateTime(rawPromotion.get(END_AT_INDEX));
 
-        return new Promotion(name, buyAmount, giveAmount, startAt, endAt);
+        return Promotion.of(name, buyAmount, giveAmount, startAt, endAt);
     }
 
     private static void validateRawPromotions(List<List<String>> rawPromotions) {
