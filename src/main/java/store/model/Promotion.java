@@ -19,6 +19,10 @@ public class Promotion {
         this.endAt = endAt;
     }
 
+    public boolean isNameEqual(String name) {
+        return this.name.equals(name);
+    }
+
     private void validateBuyAmount(int buyAmount) {
         if (buyAmount < 1) {
             throw new IllegalArgumentException("프로모션 구매 개수는 0 이상이여야 합니다.");
