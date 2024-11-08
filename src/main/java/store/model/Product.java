@@ -15,6 +15,14 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     public boolean isGeneralProduct() {
         return promotion == null;
     }

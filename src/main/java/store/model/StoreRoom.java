@@ -10,8 +10,8 @@ public class StoreRoom {
     }
 
     public static StoreRoom from(Products products) {
-        Products generalProducts = products.getGeneralProducts();
         Products promotionProducts = products.getPromotionProducts();
+        Products generalProducts = products.getGeneralProducts();
         return new StoreRoom(generalProducts, promotionProducts);
     }
 }
