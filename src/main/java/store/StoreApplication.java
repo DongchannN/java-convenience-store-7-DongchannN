@@ -3,6 +3,7 @@ package store;
 import java.util.List;
 import store.model.Products;
 import store.model.Promotions;
+import store.model.StoreRoom;
 import store.util.ProductConverter;
 import store.util.PromotionConverter;
 import store.util.StoreFileReader;
@@ -11,6 +12,7 @@ public class StoreApplication {
     public void run() {
         Promotions promotions = readPromotions();
         Products products = readProducts(promotions);
+        StoreRoom storeRoom = StoreRoom.from(products);
     }
 
     private Promotions readPromotions() {

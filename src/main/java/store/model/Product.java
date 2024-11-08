@@ -15,6 +15,14 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public boolean isGeneralProduct() {
+        return promotion == null;
+    }
+
+    public boolean isPromotionProduct() {
+        return promotion != null;
+    }
+
     private void validatePrice(int price) {
         if (price <= 0) {
             throw new IllegalArgumentException("가격은 0 이하일 수 없습니다.");
