@@ -16,7 +16,7 @@ class PurchaseParserTest {
         String rawInput = "[사이다-1], [콜라 - 2], [배 -3]";
 
         // when
-        Map<String, Integer> purchases = PurchaseParser.parseUserPurchases(rawInput);
+        Map<String, Integer> purchases = PurchaseParser.parseInputItems(rawInput);
 
         // then
         Assertions.assertThat(purchases)
@@ -37,7 +37,7 @@ class PurchaseParserTest {
     })
     public void 사용자_입력형식_이상시_예외_발생(String rawInput) {
         // when, then
-        Assertions.assertThatThrownBy(() -> PurchaseParser.parseUserPurchases(rawInput))
+        Assertions.assertThatThrownBy(() -> PurchaseParser.parseInputItems(rawInput))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
