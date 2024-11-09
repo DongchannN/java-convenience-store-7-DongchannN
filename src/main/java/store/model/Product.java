@@ -1,5 +1,7 @@
 package store.model;
 
+import java.time.LocalDateTime;
+
 public class Product {
     private final String name;
     private final int price;
@@ -23,8 +25,24 @@ public class Product {
         return new Product(product.name, product.price, 0, null);
     }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public int getPromotionUnit() {
+        return promotion.getUnit();
+    }
+
     public boolean isNameEquals(Product product) {
         return this.name.equals(product.name);
+    }
+
+    public boolean isNameEquals(String name) {
+        return this.name.equals(name);
+    }
+
+    public boolean isPromotionPeriod(LocalDateTime now) {
+        return promotion.isPeriod(now);
     }
 
     public boolean isGeneralProduct() {

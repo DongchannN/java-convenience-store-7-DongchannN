@@ -1,5 +1,7 @@
 package store.model;
 
+import camp.nextstep.edu.missionutils.DateTimes;
+
 public class StoreRoom {
     private final Products generalProducts;
     private final Products promotionsProducts;
@@ -15,11 +17,44 @@ public class StoreRoom {
         return new StoreRoom(generalProducts, promotionProducts);
     }
 
-    // 물품 유무 확인하기 :: boolean hasProduct(String name)
+    public boolean hasProduct(String name) {
+        return generalProducts.contains(name);
+    }
 
-    // 재고 있는지 확인하기(현재 진행중인 프로모션 재고 + 일반 재고) :: boolean hasAvailableStock(String name)
+    public boolean hasAvailableStock(String name, int buyAmount) {
+        Product generalProduct = generalProducts.findNullableProductByName(name);
+        Product promotionProduct = promotionsProducts.findNullableProductByName(name);
+        int totalStock = 0;
+        if (generalProduct != null) {
+            totalStock += generalProduct.getStock();
+        }
+        if (promotionProduct != null && promotionProduct.isPromotionPeriod(DateTimes.now())) {
+            totalStock += promotionProduct.getStock();
+        }
+        return totalStock >= buyAmount;
+    }
 
-    // 몇개를 정가로 결제해야하는지 확인 :: int getAdditionalAmount(String name)
+    public int getNonPromotionalQuantity(String name, int buyAmount) {
+        Product promotionProduct = promotionsProducts.findNullableProductByName(name);
+        if (promotionProduct == null) {
+            return 0;
+        }
+        if (!promotionProduct.isPromotionPeriod(DateTimes.now()) || buyAmount < promotionProduct.getStock()) {
+            return 0;
+        }
+        int promotionApplied = (promotionProduct.getStock() / promotionProduct.getPromotionUnit())
+                * promotionProduct.getPromotionUnit();
+        return buyAmount - promotionApplied;
+    }
 
-    // 혜택을 안내 할 것인지 말 것인지 :: boolean isLikelyToBenefit(String name, int buyAmount)
+    public boolean canGetOneMore(String name, int buyAmount) {
+        Product promotionProduct = promotionsProducts.findNullableProductByName(name);
+        if (promotionProduct == null) {
+            return false;
+        }
+        if (!promotionProduct.isPromotionPeriod(DateTimes.now()) || buyAmount + 1 > promotionProduct.getStock()) {
+            return false;
+        }
+        return (buyAmount + 1) % promotionProduct.getPromotionUnit() == 0;
+    }
 }

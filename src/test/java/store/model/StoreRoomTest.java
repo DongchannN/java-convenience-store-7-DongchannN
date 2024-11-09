@@ -76,6 +76,18 @@ class StoreRoomTest {
             // then
             Assertions.assertThat(result).isTrue();
         }
+
+        @Test
+        public void 프로모션_종료된_상품에_대해_카운팅_안함() {
+            // given
+            StoreRoom storeRoom = createStoreRoom();
+
+            // when
+            boolean result = storeRoom.hasAvailableStock("우유", 3);
+
+            // then
+            Assertions.assertThat(result).isFalse();
+        }
     }
 
     @Nested
@@ -87,7 +99,7 @@ class StoreRoomTest {
             StoreRoom storeRoom = createStoreRoom();
 
             // when
-            int result = storeRoom.getAdditionalAmount("콜라", 15);
+            int result = storeRoom.getNonPromotionalQuantity("콜라", 15);
 
             // then
             Assertions.assertThat(result).isEqualTo(6);
@@ -99,7 +111,19 @@ class StoreRoomTest {
             StoreRoom storeRoom = createStoreRoom();
 
             // when
-            int result = storeRoom.getAdditionalAmount("콜라", 9);
+            int result = storeRoom.getNonPromotionalQuantity("콜라", 9);
+
+            // then
+            Assertions.assertThat(result).isEqualTo(0);
+        }
+
+        @Test
+        public void 프로모션_종료된_상품에_대해_0_반환() {
+            // given
+            StoreRoom storeRoom = createStoreRoom();
+
+            // when
+            int result = storeRoom.getNonPromotionalQuantity("우유", 6);
 
             // then
             Assertions.assertThat(result).isEqualTo(0);
@@ -110,15 +134,27 @@ class StoreRoomTest {
     @DisplayName("혜택 안내 여부 관련 테스트")
     class LikelyToBenefit {
         @Test
-        public void 추가_구매시_혜택_가능시_TRUE_반환() {
+        public void 혜택_받을수_있을시_TRUE_반환() {
             // given
             StoreRoom storeRoom = createStoreRoom();
 
             // when
-            boolean result = storeRoom.isLikelyToBenefit("콜라", 5);
+            boolean result = storeRoom.canGetOneMore("콜라", 5);
 
             // then
             Assertions.assertThat(result).isTrue();
+        }
+
+        @Test
+        public void 추가구매_필요시_FALSE_반환() {
+            // given
+            StoreRoom storeRoom = createStoreRoom();
+
+            // when
+            boolean result = storeRoom.canGetOneMore("콜라", 4);
+
+            // then
+            Assertions.assertThat(result).isFalse();
         }
 
         @Test
@@ -127,18 +163,19 @@ class StoreRoomTest {
             StoreRoom storeRoom = createStoreRoom();
 
             // when
-            boolean result = storeRoom.isLikelyToBenefit("콜라", 6);
+            boolean result = storeRoom.canGetOneMore("콜라", 6);
 
             // then
             Assertions.assertThat(result).isFalse();
         }
 
+        @Test
         public void 추가_구매해도_혜택_불가능시_FALSE_반환() {
             // given
             StoreRoom storeRoom = createStoreRoom();
 
             // when
-            boolean result = storeRoom.isLikelyToBenefit("콜라", 10);
+            boolean result = storeRoom.canGetOneMore("콜라", 10);
 
             // then
             Assertions.assertThat(result).isFalse();
@@ -148,13 +185,18 @@ class StoreRoomTest {
     private StoreRoom createStoreRoom() {
         Promotion twoPlusOne = Promotion.of("2+1", 2, 1, now(), now().plusDays(2));
         Promotion onePlusOne = Promotion.of("1+1", 1, 1, now(), now().plusDays(2));
+        Promotion endPromotion = Promotion
+                .of("1++1", 1, 1, now().minusDays(7), now().minusDays(2));
 
         Product generalCoke = Product.of("콜라", 1000, 10, null);
         Product promotionCoke = Product.of("콜라", 1000, 10, twoPlusOne);
         Product promotionCider = Product.of("사이다", 800, 5, onePlusOne);
         Product generalNoodle = Product.of("국수", 1500, 5, null);
+        Product generalMilk = Product.of("우유", 1000, 2, null);
+        Product promotionMilk = Product.of("우유", 1000, 7, endPromotion);
 
-        Products products = new Products(List.of(generalCoke, promotionCoke, promotionCider, generalNoodle));
+        Products products = new Products(List
+                .of(generalCoke, promotionCoke, promotionCider, generalNoodle, generalMilk, promotionMilk));
         return StoreRoom.from(products);
     }
 }

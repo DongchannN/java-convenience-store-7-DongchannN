@@ -10,6 +10,18 @@ public class Products {
         this.products = products;
     }
 
+    public Product findNullableProductByName(String name) {
+        return products.stream()
+                .filter(p -> p.isNameEquals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean contains(String name) {
+        return products.stream()
+                .anyMatch(product -> product.isNameEquals(name));
+    }
+
     public Products getPromotionProducts() {
         return new Products(
                 products.stream()

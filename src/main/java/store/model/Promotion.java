@@ -31,6 +31,14 @@ public class Promotion {
         return this.name.equals(name);
     }
 
+    public boolean isPeriod(LocalDateTime now) {
+        return startAt.isBefore(now) && endAt.isAfter(now);
+    }
+
+    public int getUnit() {
+        return buyAmount + giveAmount;
+    }
+
     private void validateBuyAmount(int buyAmount) {
         if (buyAmount < 1) {
             throw new IllegalArgumentException("프로모션 구매 개수는 0 이상이여야 합니다.");
