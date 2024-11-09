@@ -17,6 +17,14 @@ public class StoreRoom {
         return new StoreRoom(generalProducts, promotionProducts);
     }
 
+    public Products getGeneralProducts() {
+        return generalProducts;
+    }
+
+    public Products getPromotionsProducts() {
+        return promotionsProducts;
+    }
+
     public boolean hasProduct(String name) {
         return generalProducts.contains(name);
     }

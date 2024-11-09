@@ -27,16 +27,20 @@ public class Promotion {
         return new Promotion(name, buyAmount, giveAmount, startAt, endAt);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getUnit() {
+        return buyAmount + giveAmount;
+    }
+
     public boolean isNameEquals(String name) {
         return this.name.equals(name);
     }
 
     public boolean isPeriod(LocalDateTime now) {
         return startAt.isBefore(now) && endAt.isAfter(now);
-    }
-
-    public int getUnit() {
-        return buyAmount + giveAmount;
     }
 
     private void validateBuyAmount(int buyAmount) {

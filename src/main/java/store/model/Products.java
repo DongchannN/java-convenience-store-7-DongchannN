@@ -1,5 +1,6 @@
 package store.model;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -8,6 +9,10 @@ public class Products {
 
     public Products(List<Product> products) {
         this.products = products;
+    }
+
+    public List<Product> getProducts() {
+        return Collections.unmodifiableList(products);
     }
 
     public Product findNullableProductByName(String name) {

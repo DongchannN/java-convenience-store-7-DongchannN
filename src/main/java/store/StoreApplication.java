@@ -10,18 +10,22 @@ import store.util.PromotionConverter;
 import store.util.PurchaseParser;
 import store.util.StoreFileReader;
 import store.view.InputView;
+import store.view.OutputView;
 
 public class StoreApplication {
     private final InputView inputView;
+    private final OutputView outputView;
 
-    public StoreApplication(InputView inputView) {
+    public StoreApplication(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     public void run() {
         Promotions promotions = readPromotions();
         Products products = readProducts(promotions);
         StoreRoom storeRoom = StoreRoom.from(products);
+        outputView.printProducts(storeRoom);
         String inputItems = inputView.readItem();
         Map<String, Integer> items = PurchaseParser.parseInputItems(inputItems);
     }

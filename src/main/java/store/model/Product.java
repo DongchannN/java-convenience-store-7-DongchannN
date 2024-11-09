@@ -25,8 +25,23 @@ public class Product {
         return new Product(product.name, product.price, 0, null);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     public int getStock() {
         return stock;
+    }
+
+    public String getPromotionName() {
+        if (promotion == null) {
+            return "";
+        }
+        return promotion.getName();
     }
 
     public int getPromotionUnit() {
