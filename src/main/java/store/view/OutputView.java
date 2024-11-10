@@ -7,6 +7,7 @@ import store.model.StoreRoom;
 public class OutputView {
     private static final String WELCOME_MESSAGE = "안녕하세요. W편의점입니다.\n현재 보유하고 있는 상품입니다.";
     private static final String PRODUCT_PREFIX = "- ";
+    private static final String SOLD_OUT = "재고 없음";
 
     public void printProducts(StoreRoom storeRoom) {
         System.out.println(WELCOME_MESSAGE);
@@ -37,7 +38,7 @@ public class OutputView {
 
     private String buildProductStock(int stock) {
         if (stock == 0) {
-            return "재고 없음";
+            return SOLD_OUT;
         }
         return String.format("%,d개", stock);
     }

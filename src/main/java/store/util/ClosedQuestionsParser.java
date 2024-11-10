@@ -1,7 +1,7 @@
 package store.util;
 
-public class DichotomousQuestionsParser {
-    private DichotomousQuestionsParser() {
+public class ClosedQuestionsParser {
+    private ClosedQuestionsParser() {
     }
 
     public static boolean parseAnswer(String userInput) {

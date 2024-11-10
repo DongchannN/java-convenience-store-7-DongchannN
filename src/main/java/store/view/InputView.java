@@ -14,17 +14,17 @@ public class InputView {
         return Console.readLine();
     }
 
-    public String readPromotionNonApplied(String productName, int nonPromotionApplied) {
+    public String askFullPrice(String productName, int nonPromotionApplied) {
         System.out.println(String.format(NON_PROMOTION_APPLIED_MESSAGE, productName, nonPromotionApplied));
         return Console.readLine();
     }
 
-    public String readOneMoreAvailable(String productName) {
+    public String askAddOne(String productName) {
         System.out.println(String.format(ONE_MORE_AVAILABLE_MESSAGE, productName));
         return Console.readLine();
     }
 
-    public String readMembershipExist() {
+    public String askHasMembership() {
         System.out.println(MEMBERSHIP_EXIST_MESSAGE);
         return Console.readLine();
     }

@@ -4,6 +4,7 @@ import java.util.Map;
 import store.model.PurchaseOrder;
 import store.model.StoreRoom;
 import store.util.PurchaseParser;
+import store.util.RepeatableReader;
 import store.util.StoreRoomLoader;
 import store.view.InputView;
 import store.view.OutputView;
@@ -24,14 +25,9 @@ public class StoreApplication {
     }
 
     private PurchaseOrder createPurchaseOrder(StoreRoom storeRoom) {
-        while (true) {
-            try {
-                String userInput = inputView.readItem();
-                Map<String, Integer> items = PurchaseParser.parseInputItems(userInput);
-                return PurchaseOrder.from(items, storeRoom);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        return RepeatableReader.handle(inputView::readItem, (userInput) -> {
+            Map<String, Integer> items = PurchaseParser.parseInputItems(userInput);
+            return PurchaseOrder.from(items, storeRoom);
+        });
     }
 }
