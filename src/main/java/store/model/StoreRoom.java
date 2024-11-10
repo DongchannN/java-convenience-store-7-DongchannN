@@ -1,6 +1,7 @@
 package store.model;
 
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.util.Map;
 
 public class StoreRoom {
     private final Products generalProducts;
@@ -72,5 +73,38 @@ public class StoreRoom {
             return false;
         }
         return (buyAmount + 1) % promotionProduct.getPromotionUnit() == 0;
+    }
+
+    public void arrange(Map<String, Integer> purchasedItems) {
+        purchasedItems.forEach(this::decreaseProductStock);
+    }
+
+    private void decreaseProductStock(String productName, int quantity) {
+        int remainingQuantity = decreasePromotionProduct(productName, quantity);
+        decreaseGeneralProduct(productName, remainingQuantity);
+    }
+
+    private int decreasePromotionProduct(String productName, int quantity) {
+        Product promotionProduct = promotionsProducts.findNullableProductByName(productName);
+
+        if (!isValidPromotionProduct(promotionProduct)) {
+            return quantity;
+        }
+        int decreaseAmount = Math.min(promotionProduct.getStock(), quantity);
+        promotionProduct.decreaseStock(decreaseAmount);
+
+        return quantity - decreaseAmount;
+    }
+
+    private boolean isValidPromotionProduct(Product promotionProduct) {
+        return promotionProduct != null &&
+                promotionProduct.isPromotionPeriod(DateTimes.now());
+    }
+
+    private void decreaseGeneralProduct(String productName, int quantity) {
+        Product generalProduct = generalProducts.findNullableProductByName(productName);
+        if (generalProduct != null) {
+            generalProduct.decreaseStock(quantity);
+        }
     }
 }

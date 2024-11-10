@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Product {
     private final String name;
     private final int price;
-    private final int stock;
+    private int stock;
     private final Promotion promotion;
 
     private Product(String name, int price, int stock, Promotion promotion) {
@@ -23,6 +23,10 @@ public class Product {
 
     public static Product createEmptyGeneralProduct(Product product) {
         return new Product(product.name, product.price, 0, null);
+    }
+
+    public void decreaseStock(int amount) {
+        stock -= amount;
     }
 
     public String getName() {
