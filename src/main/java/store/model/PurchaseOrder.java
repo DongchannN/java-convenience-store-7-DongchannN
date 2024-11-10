@@ -1,5 +1,6 @@
 package store.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,24 @@ public class PurchaseOrder {
         validateHasProduct(items.keySet(), storeRoom);
         validateHasStock(items, storeRoom);
         return new PurchaseOrder(items);
+    }
+
+    public Map<String, Integer> getPurchaseOrder() {
+        return Collections.unmodifiableMap(purchaseOrder);
+    }
+
+    public PurchaseOrder decreaseItemBuyAmount(String name, int decreaseAmount) {
+        HashMap<String, Integer> newPurchaseOrder = new HashMap<>(this.purchaseOrder);
+        int currentBuyAmount = purchaseOrder.get(name);
+        newPurchaseOrder.put(name, currentBuyAmount - decreaseAmount);
+        return new PurchaseOrder(newPurchaseOrder);
+    }
+
+    public PurchaseOrder increaseItemBuyAmount(String name, int increaseAmount) {
+        HashMap<String, Integer> newPurchaseOrder = new HashMap<>(this.purchaseOrder);
+        int currentBuyAmount = purchaseOrder.get(name);
+        newPurchaseOrder.put(name, currentBuyAmount + increaseAmount);
+        return new PurchaseOrder(newPurchaseOrder);
     }
 
     private static void validateHasProduct(Set<String> productNames, StoreRoom storeRoom) {

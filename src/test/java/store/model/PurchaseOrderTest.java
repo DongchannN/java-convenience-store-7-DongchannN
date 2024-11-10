@@ -52,6 +52,40 @@ class PurchaseOrderTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    public void 제품_구매개수_감소시키기() {
+        // given
+        StoreRoom storeRoom = createStoreRoom();
+        Map<String, Integer> items = Map.of("사이다", 2
+                , "콜라", 3
+                , "우유", 2);
+        PurchaseOrder purchaseOrder = PurchaseOrder.from(items, storeRoom);
+
+        // when
+        purchaseOrder = purchaseOrder.decreaseItemBuyAmount("콜라", 1);
+
+        // then
+        Assertions.assertThat(purchaseOrder.getPurchaseOrder())
+                .containsEntry("콜라", 2);
+    }
+
+    @Test
+    public void 제품_구매개수_증가시키기() {
+        // given
+        StoreRoom storeRoom = createStoreRoom();
+        Map<String, Integer> items = Map.of("사이다", 2
+                , "콜라", 3
+                , "우유", 2);
+        PurchaseOrder purchaseOrder = PurchaseOrder.from(items, storeRoom);
+
+        // when
+        purchaseOrder = purchaseOrder.increaseItemBuyAmount("콜라", 2);
+
+        // then
+        Assertions.assertThat(purchaseOrder.getPurchaseOrder())
+                .containsEntry("콜라", 5);
+    }
+
     private StoreRoom createStoreRoom() {
         Promotion twoPlusOne = Promotion.of("2+1", 2, 1, now(), now().plusDays(2));
         Promotion onePlusOne = Promotion.of("1+1", 1, 1, now(), now().plusDays(2));
