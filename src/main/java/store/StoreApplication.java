@@ -27,6 +27,7 @@ public class StoreApplication {
         purchaseOrder = processOrderWithPromotions(purchaseOrder, storeRoom);
         boolean hasMembership = RepeatableReader.handle(inputView::askMembership, ClosedQuestionsParser::parseAnswer);
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
+        outputView.printReceipt(payment);
     }
 
     private PurchaseOrder createPurchaseOrder(StoreRoom storeRoom) {

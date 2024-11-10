@@ -19,6 +19,22 @@ public class Payment {
         return new Payment(purchaseOrder, storeRoom, hasMembership);
     }
 
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public long getProductTotalPrice(String productName) {
+        int buyAmount = purchaseOrder.getPurchaseOrder().get(productName);
+        int productPrice = storeRoom.getProductPrice(productName);
+        return (long) buyAmount * productPrice;
+    }
+
+    public long getTotalBuyAmount() {
+        return purchaseOrder.getPurchaseOrder().values().stream()
+                .mapToLong(Long::valueOf)
+                .sum();
+    }
+
     public long getTotalPrice() {
         return purchaseOrder.getPurchaseOrder().entrySet().stream()
                 .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
