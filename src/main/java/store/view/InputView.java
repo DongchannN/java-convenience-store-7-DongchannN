@@ -24,7 +24,7 @@ public class InputView {
         return Console.readLine();
     }
 
-    public String askHasMembership() {
+    public String askMembership() {
         System.out.println(MEMBERSHIP_EXIST_MESSAGE);
         return Console.readLine();
     }
