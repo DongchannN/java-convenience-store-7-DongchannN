@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class StoreFileReader {
     private static final String DELIMITER = ",";
@@ -16,11 +15,10 @@ public class StoreFileReader {
         validateFileReadable(fileName);
         Path path = Paths.get(fileName);
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            return reader.lines()
-                    .skip(1)
+            return reader.lines().skip(1)
                     .filter(line -> line != null && !line.trim().isEmpty())
                     .map(StoreFileReader::parseLine)
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (IOException e) {
             throw new IllegalStateException("파일 읽기 중 오류가 발생했습니다: ");
         }
