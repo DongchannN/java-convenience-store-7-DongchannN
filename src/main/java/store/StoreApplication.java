@@ -1,6 +1,7 @@
 package store;
 
 import java.util.Map;
+import store.model.Payment;
 import store.model.PurchaseOrder;
 import store.model.StoreRoom;
 import store.util.ClosedQuestionsParser;
@@ -24,6 +25,8 @@ public class StoreApplication {
         outputView.printProducts(storeRoom);
         PurchaseOrder purchaseOrder = createPurchaseOrder(storeRoom);
         purchaseOrder = processOrderWithPromotions(purchaseOrder, storeRoom);
+        boolean hasMembership = RepeatableReader.handle(inputView::askMembership, ClosedQuestionsParser::parseAnswer);
+        Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
     }
 
     private PurchaseOrder createPurchaseOrder(StoreRoom storeRoom) {
@@ -38,7 +41,7 @@ public class StoreApplication {
         for (Map.Entry<String, Integer> entry : purchaseOrder.getPurchaseOrder().entrySet()) {
             result = applyPromotionToProduct(result, storeRoom, entry.getKey(), entry.getValue());
         }
-        return purchaseOrder;
+        return result;
     }
 
     private PurchaseOrder applyPromotionToProduct(PurchaseOrder purchaseOrder,
