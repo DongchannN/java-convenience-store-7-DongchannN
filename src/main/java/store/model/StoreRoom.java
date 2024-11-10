@@ -25,6 +25,14 @@ public class StoreRoom {
         return promotionsProducts;
     }
 
+    public int getProductPrice(String name) {
+        Product product = generalProducts.findNullableProductByName(name);
+        if (product == null) { // todo : 예외 처리 생각
+            return 0;
+        }
+        return product.getPrice();
+    }
+
     public boolean hasProduct(String name) {
         return generalProducts.contains(name);
     }
