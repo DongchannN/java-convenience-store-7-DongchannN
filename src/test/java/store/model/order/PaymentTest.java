@@ -139,6 +139,28 @@ class PaymentTest {
         Assertions.assertThat(actualPrice).isEqualTo(4300L);
     }
 
+    @Test
+    public void 하나의_품목에_대해_증정과_정가_섞일시_맴버십_할인_부분_적용() {
+        // given
+        Map<String, Integer> items = Map.of("사이다", 2
+                , "콜라", 19
+                , "우유", 2);
+        StoreRoom storeRoom = createStoreRoom();
+        PurchaseOrder purchaseOrder = PurchaseOrder.from(items, storeRoom);
+        Payment payment = Payment.from(purchaseOrder, storeRoom, true);
+
+        // when
+        long promotionDiscount = payment.calculatePromotionalDiscount();
+        long membershipDiscount = payment.calculateMembershipDiscount();
+        long actualPrice = payment.calculateActualPrice();
+
+        // then
+        Assertions.assertThat(promotionDiscount).isEqualTo(3800L);
+        Assertions.assertThat(membershipDiscount).isEqualTo(3600L);
+        Assertions.assertThat(actualPrice).isEqualTo(15200L);
+    }
+
+
     private Map<String, Integer> createItems() {
         return Map.of("사이다", 2
                 , "콜라", 3

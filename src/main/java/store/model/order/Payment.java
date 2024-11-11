@@ -38,11 +38,13 @@ public class Payment {
         if (!hasMembership) {
             return 0;
         }
-        long targetPrice = purchaseOrder.getPurchaseOrder().entrySet().stream()
-                .filter(entry -> !extractPromotionalProducts().containsKey(entry.getKey()))
-                .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
-                .sum();
-        return (long) (targetPrice * 0.3);
+        long totalPrice = calculateTotalPrice();
+        long promotionAppliedPrice = extractPromotionalProducts().entrySet().stream()
+                .mapToLong(entry -> {
+                    Product product = storeRoom.getPromotionProducts().findNullableProductByName(entry.getKey());
+                    return (long) product.getPrice() * entry.getValue() * product.getPromotionUnit();
+                }).sum();
+        return (long) ((totalPrice - promotionAppliedPrice) * 0.3);
     }
 
     public long calculateTotalPrice() {
@@ -67,7 +69,7 @@ public class Payment {
         Product product = storeRoom.getPromotionProducts().findNullableProductByName(productName);
         if (product != null
                 && product.isPromotionPeriod(DateTimes.now())
-                && product.getStock() > product.getPromotionUnit()) {
+                && product.getStock() >= product.getPromotionUnit()) {
             int promotionalQuantity = quantity - storeRoom.getNonPromotionalQuantity(productName, quantity);
             return promotionalQuantity / product.getPromotionUnit();
         }
