@@ -62,7 +62,7 @@ class PurchaseOrderTest {
         PurchaseOrder purchaseOrder = PurchaseOrder.from(items, storeRoom);
 
         // when
-        purchaseOrder = purchaseOrder.decreaseItemBuyAmount("콜라", 1);
+        purchaseOrder = purchaseOrder.decreaseBuyAmount("콜라", 1);
 
         // then
         Assertions.assertThat(purchaseOrder.getPurchaseOrder())
@@ -79,7 +79,7 @@ class PurchaseOrderTest {
         PurchaseOrder purchaseOrder = PurchaseOrder.from(items, storeRoom);
 
         // when
-        purchaseOrder = purchaseOrder.increaseItemBuyAmount("콜라", 2);
+        purchaseOrder = purchaseOrder.increaseBuyAmount("콜라", 2);
 
         // then
         Assertions.assertThat(purchaseOrder.getPurchaseOrder())

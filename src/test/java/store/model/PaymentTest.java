@@ -27,7 +27,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        long totalPrice = payment.getTotalPrice();
+        long totalPrice = payment.calculateTotalPrice();
 
         // then
         Assertions.assertThat(totalPrice).isEqualTo(6600L);
@@ -56,7 +56,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        long promotionDiscount = payment.getPromotionalDiscount();
+        long promotionDiscount = payment.calculatePromotionalDiscount();
 
         // then
         Assertions.assertThat(promotionDiscount).isEqualTo(1800L);
@@ -69,7 +69,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        long membershipDiscount = payment.getMembershipDiscount();
+        long membershipDiscount = payment.calculateMembershipDiscount();
 
         // then
         Assertions.assertThat(membershipDiscount).isEqualTo(600L);
@@ -82,7 +82,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        long membershipDiscount = payment.getMembershipDiscount();
+        long membershipDiscount = payment.calculateMembershipDiscount();
 
         // then
         Assertions.assertThat(membershipDiscount).isEqualTo(0L);
@@ -95,7 +95,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        long actualPrice = payment.getActualPrice();
+        long actualPrice = payment.calculateActualPrice();
 
         // then
         Assertions.assertThat(actualPrice).isEqualTo(4200L);
@@ -108,7 +108,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        long actualPrice = payment.getActualPrice();
+        long actualPrice = payment.calculateActualPrice();
 
         // then
         Assertions.assertThat(actualPrice).isEqualTo(4800L);
@@ -125,9 +125,9 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, true);
 
         // when
-        long promotionDiscount = payment.getPromotionalDiscount();
-        long membershipDiscount = payment.getMembershipDiscount();
-        long actualPrice = payment.getActualPrice();
+        long promotionDiscount = payment.calculatePromotionalDiscount();
+        long membershipDiscount = payment.calculateMembershipDiscount();
+        long actualPrice = payment.calculateActualPrice();
 
         // then
         Assertions.assertThat(promotionDiscount).isEqualTo(800L);

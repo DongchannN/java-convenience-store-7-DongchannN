@@ -66,10 +66,10 @@ public class StoreApplication {
         int fullPriceAmount = storeRoom.getNonPromotionalQuantity(productName, buyAmount);
         if (fullPriceAmount > 0) {
             purchaseOrder = purchaseOrder
-                    .decreaseItemBuyAmount(productName, getDecreaseAmount(productName, fullPriceAmount));
+                    .decreaseBuyAmount(productName, getDecreaseAmount(productName, fullPriceAmount));
         }
         if (storeRoom.canGetOneMore(productName, buyAmount)) {
-            purchaseOrder = purchaseOrder.increaseItemBuyAmount(productName, getIncreaseAmount(productName));
+            purchaseOrder = purchaseOrder.increaseBuyAmount(productName, getIncreaseAmount(productName));
         }
         return purchaseOrder;
     }

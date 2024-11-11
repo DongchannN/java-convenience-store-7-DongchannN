@@ -19,45 +19,20 @@ public class Payment {
         return new Payment(purchaseOrder, storeRoom, hasMembership);
     }
 
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
+    public long calculateActualPrice() {
+        long promotionalDiscount = calculatePromotionalDiscount();
+        long membershipDiscount = calculateMembershipDiscount();
+        long totalPrice = calculateTotalPrice();
+        return totalPrice - (promotionalDiscount + membershipDiscount);
     }
 
-    public long getProductTotalPrice(String productName) {
-        int buyAmount = purchaseOrder.getPurchaseOrder().get(productName);
-        int productPrice = storeRoom.getProductPrice(productName);
-        return (long) buyAmount * productPrice;
-    }
-
-    public long getTotalBuyAmount() {
-        return purchaseOrder.getPurchaseOrder().values().stream()
-                .mapToLong(Long::valueOf)
-                .sum();
-    }
-
-    public long getTotalPrice() {
-        return purchaseOrder.getPurchaseOrder().entrySet().stream()
-                .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
-                .sum();
-    }
-
-    public Map<String, Integer> getPromotionalProducts() {
-        return purchaseOrder.getPurchaseOrder().entrySet().stream()
-                .map(entry -> Map.entry(
-                        entry.getKey(),
-                        calculateGiveawayAmount(entry.getKey(), entry.getValue())
-                ))
-                .filter(entry -> entry.getValue() > 0)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public long getPromotionalDiscount() {
+    public long calculatePromotionalDiscount() {
         return getPromotionalProducts().entrySet().stream()
                 .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
                 .sum();
     }
 
-    public long getMembershipDiscount() {
+    public long calculateMembershipDiscount() {
         if (!hasMembership) {
             return 0;
         }
@@ -68,20 +43,45 @@ public class Payment {
         return (long) (targetPrice * 0.3);
     }
 
-    public long getActualPrice() {
-        long promotionalDiscount = getPromotionalDiscount();
-        long membershipDiscount = getMembershipDiscount();
-        long totalPrice = getTotalPrice();
-        return totalPrice - (promotionalDiscount + membershipDiscount);
+    public long calculateTotalPrice() {
+        return purchaseOrder.getPurchaseOrder().entrySet().stream()
+                .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
+                .sum();
+    }
+
+    public long calculateProductPrice(String productName) {
+        int buyAmount = purchaseOrder.getPurchaseOrder().get(productName);
+        int productPrice = storeRoom.getProductPrice(productName);
+        return (long) buyAmount * productPrice;
+    }
+
+    public long calculateTotalBuyAmount() {
+        return purchaseOrder.getPurchaseOrder().values().stream()
+                .mapToLong(Long::valueOf)
+                .sum();
     }
 
     private int calculateGiveawayAmount(String productName, int quantity) {
-        Product product = storeRoom.getPromotionsProducts().findNullableProductByName(productName);
+        Product product = storeRoom.getPromotionProducts().findNullableProductByName(productName);
         if (product != null
                 && product.isPromotionPeriod(DateTimes.now())
                 && product.getStock() > product.getPromotionUnit()) {
             return quantity / product.getPromotionUnit();
         }
         return 0;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public Map<String, Integer> getPromotionalProducts() {
+        return purchaseOrder.getPurchaseOrder().entrySet().stream()
+                .map(entry -> Map.entry(
+                        entry.getKey(),
+                        calculateGiveawayAmount(entry.getKey(), entry.getValue())
+                ))
+                .filter(entry -> entry.getValue() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

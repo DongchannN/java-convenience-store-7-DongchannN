@@ -29,6 +29,41 @@ public class Product {
         stock -= amount;
     }
 
+    public boolean isNameEquals(Product product) {
+        return this.name.equals(product.name);
+    }
+
+    public boolean isNameEquals(String name) {
+        return this.name.equals(name);
+    }
+
+    public boolean isPromotionPeriod(LocalDateTime now) {
+        if (this.promotion == null) {
+            return false;
+        }
+        return promotion.isPeriod(now);
+    }
+
+    public boolean isGeneralProduct() {
+        return promotion == null;
+    }
+
+    public boolean isPromotionProduct() {
+        return promotion != null;
+    }
+
+    private void validatePrice(int price) {
+        if (price <= 0) {
+            throw new IllegalArgumentException(""); // todo : 예외 메시지
+        }
+    }
+
+    private void validateStock(int stock) {
+        if (stock < 0) {
+            throw new IllegalArgumentException(""); // todo : 예외 메시지
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -50,37 +85,5 @@ public class Product {
 
     public int getPromotionUnit() {
         return promotion.getUnit();
-    }
-
-    public boolean isNameEquals(Product product) {
-        return this.name.equals(product.name);
-    }
-
-    public boolean isNameEquals(String name) {
-        return this.name.equals(name);
-    }
-
-    public boolean isPromotionPeriod(LocalDateTime now) {
-        return promotion.isPeriod(now);
-    }
-
-    public boolean isGeneralProduct() {
-        return promotion == null;
-    }
-
-    public boolean isPromotionProduct() {
-        return promotion != null;
-    }
-
-    private void validatePrice(int price) {
-        if (price <= 0) {
-            throw new IllegalArgumentException("가격은 0 이하일 수 없습니다.");
-        }
-    }
-
-    private void validateStock(int stock) {
-        if (stock < 0) {
-            throw new IllegalArgumentException("재고는 음수일 수 없습니다.");
-        }
     }
 }

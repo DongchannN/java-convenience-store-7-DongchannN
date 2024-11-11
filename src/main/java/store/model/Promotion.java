@@ -27,14 +27,6 @@ public class Promotion {
         return new Promotion(name, buyAmount, giveAmount, startAt, endAt);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getUnit() {
-        return buyAmount + giveAmount;
-    }
-
     public boolean isNameEquals(String name) {
         return this.name.equals(name);
     }
@@ -53,5 +45,13 @@ public class Promotion {
         if (giveAmount != 1) {
             throw new IllegalArgumentException("프로모션 증정 개수는 1 이여야 합니다.");
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getUnit() {
+        return buyAmount + giveAmount;
     }
 }

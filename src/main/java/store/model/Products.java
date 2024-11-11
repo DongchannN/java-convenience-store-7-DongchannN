@@ -11,10 +11,6 @@ public class Products {
         this.products = products;
     }
 
-    public List<Product> getProducts() {
-        return Collections.unmodifiableList(products);
-    }
-
     public Product findNullableProductByName(String name) {
         return products.stream()
                 .filter(p -> p.isNameEquals(name))
@@ -27,7 +23,7 @@ public class Products {
                 .anyMatch(product -> product.isNameEquals(name));
     }
 
-    public Products getPromotionProducts() {
+    public Products extractPromotionProducts() {
         return new Products(
                 products.stream()
                         .filter(Product::isPromotionProduct)
@@ -35,12 +31,12 @@ public class Products {
         );
     }
 
-    public Products getGeneralProducts() {
+    public Products extractGeneralProducts() {
         List<Product> generalProducts = this.products.stream()
                 .filter(Product::isGeneralProduct)
                 .toList();
 
-        List<Product> soldOutGeneralProducts = getPromotionProducts().products.stream()
+        List<Product> soldOutGeneralProducts = extractPromotionProducts().products.stream()
                 .filter(product -> !hasGeneralProduct(product))
                 .map(Product::createEmptyGeneralProduct)
                 .toList();
@@ -52,5 +48,9 @@ public class Products {
         return products.stream()
                 .filter(Product::isGeneralProduct)
                 .anyMatch(compared -> compared.isNameEquals(product));
+    }
+
+    public List<Product> getProducts() {
+        return Collections.unmodifiableList(products);
     }
 }

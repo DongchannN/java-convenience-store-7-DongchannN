@@ -28,7 +28,7 @@ public class OutputFormatter {
         StringBuilder sb = new StringBuilder();
         sb.append(WELCOME_MESSAGE).append(SYSTEM_LINE_SEPARATOR).append(SYSTEM_LINE_SEPARATOR);
 
-        String menus = buildProducts(storeRoom.getGeneralProducts(), storeRoom.getPromotionsProducts());
+        String menus = buildProducts(storeRoom.getGeneralProducts(), storeRoom.getPromotionProducts());
         sb.append(menus);
         return sb.toString();
     }
@@ -81,7 +81,7 @@ public class OutputFormatter {
         StringBuilder sb = new StringBuilder();
         payment.getPurchaseOrder().getPurchaseOrder().forEach((name, quantity) ->
                 sb.append(String.format(RECEIPT_PURCHASE_MESSAGE_FORMAT,
-                                name, quantity, payment.getProductTotalPrice(name)))
+                                name, quantity, payment.calculateProductPrice(name)))
                         .append(SYSTEM_LINE_SEPARATOR)
         );
         return sb.toString();
@@ -109,22 +109,22 @@ public class OutputFormatter {
 
     private static String buildTotalPrice(Payment payment) {
         return String.format(RECEIPT_TOTAL_PRICE_MESSAGE_FORMAT,
-                payment.getTotalBuyAmount(), payment.getTotalPrice())
+                payment.calculateTotalBuyAmount(), payment.calculateTotalPrice())
                 + SYSTEM_LINE_SEPARATOR;
     }
 
     private static String buildDiscounts(Payment payment) {
         return String.format(RECEIPT_PROMOTION_DISCOUNT_MESSAGE_FORMAT,
-                payment.getPromotionalDiscount())
+                payment.calculatePromotionalDiscount())
                 + SYSTEM_LINE_SEPARATOR
                 + String.format(RECEIPT_MEMBERSHIP_DISCOUNT_MESSAGE_FORMAT,
-                payment.getMembershipDiscount())
+                payment.calculateMembershipDiscount())
                 + SYSTEM_LINE_SEPARATOR;
     }
 
     private static String buildFinalPrice(Payment payment) {
         return String.format(RECEIPT_ACTUAL_PRICE_MESSAGE_FORMAT,
-                payment.getActualPrice())
+                payment.calculateActualPrice())
                 + SYSTEM_LINE_SEPARATOR;
     }
 }

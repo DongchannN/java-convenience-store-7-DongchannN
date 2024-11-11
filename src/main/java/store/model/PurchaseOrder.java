@@ -19,18 +19,14 @@ public class PurchaseOrder {
         return new PurchaseOrder(items);
     }
 
-    public Map<String, Integer> getPurchaseOrder() {
-        return Collections.unmodifiableMap(purchaseOrder);
-    }
-
-    public PurchaseOrder decreaseItemBuyAmount(String name, int decreaseAmount) {
+    public PurchaseOrder decreaseBuyAmount(String name, int decreaseAmount) {
         HashMap<String, Integer> newPurchaseOrder = new HashMap<>(this.purchaseOrder);
         int currentBuyAmount = purchaseOrder.get(name);
         newPurchaseOrder.put(name, currentBuyAmount - decreaseAmount);
         return new PurchaseOrder(newPurchaseOrder);
     }
 
-    public PurchaseOrder increaseItemBuyAmount(String name, int increaseAmount) {
+    public PurchaseOrder increaseBuyAmount(String name, int increaseAmount) {
         HashMap<String, Integer> newPurchaseOrder = new HashMap<>(this.purchaseOrder);
         int currentBuyAmount = purchaseOrder.get(name);
         newPurchaseOrder.put(name, currentBuyAmount + increaseAmount);
@@ -52,5 +48,9 @@ public class PurchaseOrder {
                 throw new IllegalArgumentException("");
             }
         });
+    }
+
+    public Map<String, Integer> getPurchaseOrder() {
+        return Collections.unmodifiableMap(purchaseOrder);
     }
 }

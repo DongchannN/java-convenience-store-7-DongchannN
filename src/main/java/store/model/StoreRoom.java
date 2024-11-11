@@ -5,33 +5,17 @@ import java.util.Map;
 
 public class StoreRoom {
     private final Products generalProducts;
-    private final Products promotionsProducts;
+    private final Products promotionProducts;
 
-    private StoreRoom(Products generalProducts, Products promotionsProducts) {
+    private StoreRoom(Products generalProducts, Products promotionProducts) {
         this.generalProducts = generalProducts;
-        this.promotionsProducts = promotionsProducts;
+        this.promotionProducts = promotionProducts;
     }
 
     public static StoreRoom from(Products products) {
-        Products promotionProducts = products.getPromotionProducts();
-        Products generalProducts = products.getGeneralProducts();
+        Products promotionProducts = products.extractPromotionProducts();
+        Products generalProducts = products.extractGeneralProducts();
         return new StoreRoom(generalProducts, promotionProducts);
-    }
-
-    public Products getGeneralProducts() {
-        return generalProducts;
-    }
-
-    public Products getPromotionsProducts() {
-        return promotionsProducts;
-    }
-
-    public int getProductPrice(String name) {
-        Product product = generalProducts.findNullableProductByName(name);
-        if (product == null) { // todo : 예외 처리 생각
-            return 0;
-        }
-        return product.getPrice();
     }
 
     public boolean hasProduct(String name) {
@@ -40,7 +24,7 @@ public class StoreRoom {
 
     public boolean hasAvailableStock(String name, int buyAmount) {
         Product generalProduct = generalProducts.findNullableProductByName(name);
-        Product promotionProduct = promotionsProducts.findNullableProductByName(name);
+        Product promotionProduct = promotionProducts.findNullableProductByName(name);
         int totalStock = 0;
         if (generalProduct != null) {
             totalStock += generalProduct.getStock();
@@ -52,7 +36,7 @@ public class StoreRoom {
     }
 
     public int getNonPromotionalQuantity(String name, int buyAmount) {
-        Product promotionProduct = promotionsProducts.findNullableProductByName(name);
+        Product promotionProduct = promotionProducts.findNullableProductByName(name);
         if (promotionProduct == null) {
             return 0;
         }
@@ -65,7 +49,7 @@ public class StoreRoom {
     }
 
     public boolean canGetOneMore(String name, int buyAmount) {
-        Product promotionProduct = promotionsProducts.findNullableProductByName(name);
+        Product promotionProduct = promotionProducts.findNullableProductByName(name);
         if (promotionProduct == null) {
             return false;
         }
@@ -85,7 +69,7 @@ public class StoreRoom {
     }
 
     private int decreasePromotionProduct(String productName, int quantity) {
-        Product promotionProduct = promotionsProducts.findNullableProductByName(productName);
+        Product promotionProduct = promotionProducts.findNullableProductByName(productName);
 
         if (!isValidPromotionProduct(promotionProduct)) {
             return quantity;
@@ -106,5 +90,21 @@ public class StoreRoom {
         if (generalProduct != null) {
             generalProduct.decreaseStock(quantity);
         }
+    }
+
+    public Products getGeneralProducts() {
+        return generalProducts;
+    }
+
+    public Products getPromotionProducts() {
+        return promotionProducts;
+    }
+
+    public int getProductPrice(String name) {
+        Product product = generalProducts.findNullableProductByName(name);
+        if (product == null) { // todo : 예외 처리 생각
+            return 0;
+        }
+        return product.getPrice();
     }
 }
