@@ -55,6 +55,7 @@ public class Products {
     private void validateDistinctGeneralProducts(List<Product> products) {
         long distinctCount = products.stream()
                 .filter(Product::isGeneralProduct)
+                .map(Product::getName)
                 .distinct().count();
 
         long totalCount = products.stream()
@@ -67,6 +68,7 @@ public class Products {
     private void validateDistinctPromotionProduct(List<Product> products) {
         long distinctCount = products.stream()
                 .filter(Product::isPromotionProduct)
+                .map(Product::getName)
                 .distinct().count();
 
         long totalCount = products.stream()

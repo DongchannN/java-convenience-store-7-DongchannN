@@ -1,6 +1,5 @@
 package store.model.store.promotion;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,11 +12,14 @@ public class Promotions {
         this.promotions = promotions;
     }
 
-    public Promotion findNullablePromotionByName(String name) {
+    public Promotion findPromotionByName(String name) {
+        if (name.equals("null")) {
+            return null;
+        }
         return promotions.stream()
                 .filter(promotion -> promotion.isNameEquals(name))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 프로모션이 있습니다."));
     }
 
     private void validateDistinct(List<Promotion> promotions) {

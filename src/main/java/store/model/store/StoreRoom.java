@@ -10,6 +10,7 @@ public class StoreRoom {
     private final Products promotionProducts;
 
     private StoreRoom(Products generalProducts, Products promotionProducts) {
+        validatePriceConsistency(generalProducts, promotionProducts);
         this.generalProducts = generalProducts;
         this.promotionProducts = promotionProducts;
     }
@@ -94,6 +95,17 @@ public class StoreRoom {
         }
     }
 
+    private void validatePriceConsistency(Products generalProducts, Products promotionProducts) {
+        long priceNotMatched = promotionProducts.getProducts().stream()
+                .filter(product -> {
+                    Product generalProduct = generalProducts.findNullableProductByName(product.getName());
+                    return generalProduct.getPrice() != product.getPrice();
+                }).count();
+        if (priceNotMatched > 0) {
+            throw new IllegalArgumentException("일반 상품과 프로모션 상품의 가격은 동일해야합니다.");
+        }
+    }
+
     public Products getGeneralProducts() {
         return generalProducts;
     }
@@ -104,9 +116,6 @@ public class StoreRoom {
 
     public int getProductPrice(String name) {
         Product product = generalProducts.findNullableProductByName(name);
-        if (product == null) { // todo : 예외 처리 생각
-            return 0;
-        }
         return product.getPrice();
     }
 }
