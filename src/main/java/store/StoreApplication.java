@@ -7,25 +7,38 @@ import store.model.StoreRoom;
 import store.util.ClosedQuestionsParser;
 import store.util.PurchaseParser;
 import store.util.RepeatableReader;
-import store.util.StoreRoomLoader;
 import store.view.InputView;
 import store.view.OutputView;
 
 public class StoreApplication {
     private final InputView inputView;
     private final OutputView outputView;
+    private final StoreRoom storeRoom;
 
-    public StoreApplication(InputView inputView, OutputView outputView) {
+    public StoreApplication(InputView inputView, OutputView outputView, StoreRoom storeRoom) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.storeRoom = storeRoom;
     }
 
     public void run() {
-        StoreRoom storeRoom = StoreRoomLoader.initStoreRoom();
+        while (true) {
+            processPurchase();
+            boolean buyMore = RepeatableReader.handle(inputView::askAdditionalPurchase,
+                    ClosedQuestionsParser::parseAnswer);
+            if (!buyMore) {
+                return;
+            }
+        }
+    }
+
+    private void processPurchase() {
         outputView.printProducts(storeRoom);
+
         PurchaseOrder purchaseOrder = createPurchaseOrder(storeRoom);
         purchaseOrder = processOrderWithPromotions(purchaseOrder, storeRoom);
         boolean hasMembership = RepeatableReader.handle(inputView::askMembership, ClosedQuestionsParser::parseAnswer);
+
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
         outputView.printReceipt(payment);
         storeRoom.arrange(payment.getPurchaseOrder().getPurchaseOrder());
