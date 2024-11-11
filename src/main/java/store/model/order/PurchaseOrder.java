@@ -55,6 +55,10 @@ public class PurchaseOrder {
         });
     }
 
+    public Long getTotalBuyAmount() {
+        return purchaseOrder.values().stream().mapToLong(Long::valueOf).sum();
+    }
+
     public Map<String, Integer> getPurchaseOrder() {
         return Collections.unmodifiableMap(purchaseOrder);
     }

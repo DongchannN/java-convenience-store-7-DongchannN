@@ -26,6 +26,7 @@ public class StoreApplication {
 
     public void run() {
         while (true) {
+            outputView.printProducts(storeRoom);
             processPurchase();
             boolean buyMore = RepeatableReader.handle(inputView::askAdditionalPurchase,
                     ClosedQuestionsParser::parseAnswer, errorView::errorPage);
@@ -36,13 +37,13 @@ public class StoreApplication {
     }
 
     private void processPurchase() {
-        outputView.printProducts(storeRoom);
-
         PurchaseOrder purchaseOrder = createPurchaseOrder(storeRoom);
         purchaseOrder = adjustOrderWithPromotions(purchaseOrder, storeRoom);
+        if (purchaseOrder.getTotalBuyAmount() <= 0) {
+            return;
+        }
         boolean hasMembership = RepeatableReader.handle(inputView::askMembership, ClosedQuestionsParser::parseAnswer,
                 errorView::errorPage);
-
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
         outputView.printReceipt(payment);
         storeRoom.arrange(payment.getPurchaseOrder().getPurchaseOrder());
