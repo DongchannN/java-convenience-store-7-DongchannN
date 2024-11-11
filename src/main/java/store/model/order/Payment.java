@@ -38,13 +38,13 @@ public class Payment {
         if (!hasMembership) {
             return 0;
         }
-        long totalPrice = calculateTotalPrice();
         long promotionAppliedPrice = extractPromotionalProducts().entrySet().stream()
                 .mapToLong(entry -> {
                     Product product = storeRoom.getPromotionProducts().findNullableProductByName(entry.getKey());
                     return (long) product.getPrice() * entry.getValue() * product.getPromotionUnit();
                 }).sum();
-        return (long) ((totalPrice - promotionAppliedPrice) * 0.3);
+        long membershipDiscount = (long) ((calculateTotalPrice() - promotionAppliedPrice) * 0.3);
+        return Math.min(8000L, membershipDiscount);
     }
 
     public long calculateTotalPrice() {
