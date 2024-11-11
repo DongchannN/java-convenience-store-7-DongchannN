@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import store.exception.reader.FileReadException;
 
 public class StoreFileReader {
     private static final String DELIMITER = ",";
@@ -20,7 +21,7 @@ public class StoreFileReader {
                     .map(StoreFileReader::parseLine)
                     .toList();
         } catch (IOException e) {
-            throw new IllegalStateException("파일 읽기 중 오류가 발생했습니다: ");
+            throw new FileReadException();
         }
     }
 
@@ -30,11 +31,11 @@ public class StoreFileReader {
 
     public static void validateFileReadable(String fileName) {
         if (fileName == null || fileName.trim().isEmpty()) {
-            throw new IllegalArgumentException("읽을 수 없는 파일입니다.");
+            throw new FileReadException();
         }
         Path path = Paths.get(fileName);
         if (!(Files.exists(path) && Files.isReadable(path))) {
-            throw new IllegalArgumentException("읽을 수 없는 파일입니다.");
+            throw new FileReadException();
         }
     }
 }

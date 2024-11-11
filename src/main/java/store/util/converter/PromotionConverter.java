@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import store.exception.reader.FileReadException;
 import store.model.store.promotion.Promotion;
 import store.model.store.promotion.Promotions;
 
@@ -38,22 +39,22 @@ public class PromotionConverter {
 
     private static void validateRawPromotions(List<List<String>> rawPromotions) {
         if (rawPromotions == null || rawPromotions.isEmpty()) {
-            throw new IllegalArgumentException(""); // todo : 예외 이름 생각하기
+            throw new FileReadException();
         }
     }
 
     private static void validateSize(List<String> rawPromotion) {
         if (rawPromotion == null || rawPromotion.isEmpty()) {
-            throw new IllegalArgumentException(""); // todo : 예외 이름 생각하기
+            throw new FileReadException();
         }
         if (rawPromotion.size() != PROMOTION_COLUMN_SIZE) {
-            throw new IllegalArgumentException(""); // todo : 예외 이름 생각하기
+            throw new FileReadException();
         }
     }
 
     private static void validateName(String name) {
         if (name.equals("null")) {
-            throw new IllegalArgumentException(""); // todo : 예외 이름 생각하기
+            throw new FileReadException();
         }
     }
 
@@ -61,7 +62,7 @@ public class PromotionConverter {
         try {
             return Integer.parseInt(rawNumber.trim());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(""); // todo : 예외 이름 생각하기
+            throw new FileReadException();
         }
     }
 
@@ -71,7 +72,7 @@ public class PromotionConverter {
             return date.atStartOfDay();
         } catch (DateTimeParseException e) {
             System.out.println(rawDate);
-            throw new IllegalArgumentException(""); // todo : 예외 이름 생각하기
+            throw new FileReadException();
         }
     }
 }

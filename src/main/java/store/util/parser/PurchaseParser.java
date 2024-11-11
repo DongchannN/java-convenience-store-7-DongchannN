@@ -3,6 +3,7 @@ package store.util.parser;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
+import store.exception.input.IllegalInputFormatException;
 
 public class PurchaseParser {
 
@@ -40,29 +41,29 @@ public class PurchaseParser {
         try {
             return Integer.parseInt(rawQuantity);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalInputFormatException();
         }
     }
 
     private static void validateElementFormat(String element) {
         if (!(element.charAt(0) == START_OF_ITEM && element.charAt(element.length() - 1) == END_OF_ITEM)) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalInputFormatException();
         }
         String content = element.substring(1, element.length() - 1);
         if (content.contains(String.valueOf(START_OF_ITEM)) || content.contains(String.valueOf(END_OF_ITEM))) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalInputFormatException();
         }
     }
 
     private static void validateKeyValuePair(String[] keyValue) {
         if (keyValue.length != 2) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalInputFormatException();
         }
     }
 
     private static void validateBuyAmount(int buyAmount) {
         if (buyAmount <= 0) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalInputFormatException();
         }
     }
 }

@@ -3,6 +3,7 @@ package store.model.store.promotion;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Promotions {
     private final List<Promotion> promotions;
@@ -20,9 +21,11 @@ public class Promotions {
     }
 
     private void validateDistinct(List<Promotion> promotions) {
-        Set<Promotion> promotionSet = new HashSet<>(promotions);
-        if (promotionSet.size() != promotions.size()) {
-            throw new IllegalArgumentException("");
+        Set<String> promotionNames = promotions.stream()
+                .map(Promotion::getName)
+                .collect(Collectors.toSet());
+        if (promotionNames.size() != promotions.size()) {
+            throw new IllegalArgumentException("프로모션의 이름은 중복될 수 없습니다.");
         }
     }
 }

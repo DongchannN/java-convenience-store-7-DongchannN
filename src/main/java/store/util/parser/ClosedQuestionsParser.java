@@ -1,5 +1,7 @@
 package store.util.parser;
 
+import store.exception.input.InvalidInputException;
+
 public class ClosedQuestionsParser {
     private ClosedQuestionsParser() {
     }
@@ -12,10 +14,10 @@ public class ClosedQuestionsParser {
 
     private static void validateQuestionFormat(String rawAnswer) {
         if (rawAnswer.length() != 1) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new InvalidInputException();
         }
         if (!rawAnswer.equals("Y") && !rawAnswer.equals("N")) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new InvalidInputException();
         }
     }
 }

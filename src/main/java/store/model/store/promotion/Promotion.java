@@ -37,13 +37,13 @@ public class Promotion {
 
     private void validateBuyAmount(int buyAmount) {
         if (buyAmount < 1) {
-            throw new IllegalArgumentException("프로모션 구매 개수는 0 이상이여야 합니다.");
+            throw new IllegalArgumentException("구매 개수는 0 이하가 될 수 없습니다.");
         }
     }
 
     private void validateGiveAmount(int giveAmount) {
         if (giveAmount != 1) {
-            throw new IllegalArgumentException("프로모션 증정 개수는 1 이여야 합니다.");
+            throw new IllegalArgumentException("추가 증정은 하나만 가능합니다.");
         }
     }
 

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import store.exception.store.InsufficientStockException;
+import store.exception.store.NonExistProductException;
 import store.model.store.StoreRoom;
 
 public class PurchaseOrder {
@@ -39,14 +41,14 @@ public class PurchaseOrder {
                 .filter(productName -> !storeRoom.hasProduct(productName))
                 .toList();
         if (!nonExistProducts.isEmpty()) {
-            throw new IllegalArgumentException("");
+            throw new NonExistProductException();
         }
     }
 
     private static void validateHasStock(Map<String, Integer> products, StoreRoom storeRoom) {
         products.forEach((name, quantity) -> {
             if (!storeRoom.hasAvailableStock(name, quantity)) {
-                throw new IllegalArgumentException("");
+                throw new InsufficientStockException();
             }
         });
     }

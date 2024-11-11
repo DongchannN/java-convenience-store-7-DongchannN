@@ -55,13 +55,13 @@ public class Product {
 
     private void validatePrice(int price) {
         if (price <= 0) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalArgumentException("가격은 0 이하가 될 수 없습니다.");
         }
     }
 
     private void validateStock(int stock) {
         if (stock < 0) {
-            throw new IllegalArgumentException(""); // todo : 예외 메시지
+            throw new IllegalArgumentException("재고는 음수가 될 수 없습니다.");
         }
     }
 
