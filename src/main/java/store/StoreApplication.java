@@ -77,7 +77,7 @@ public class StoreApplication {
     private int getDecreaseAmount(String productName, int fullPriceAmount) {
         boolean isAgree = RepeatableReader.handle(() ->
                 inputView.askFullPrice(productName, fullPriceAmount), ClosedQuestionsParser::parseAnswer);
-        if (isAgree) {
+        if (!isAgree) {
             return fullPriceAmount;
         }
         return 0;
