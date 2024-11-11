@@ -1,13 +1,13 @@
 package store.model.order;
 
-import static store.exception.store.StoreErrorStatus.*;
+import static store.exception.store.StoreErrorStatus.INSUFFICIENT_STOCK;
+import static store.exception.store.StoreErrorStatus.NON_EXIST_PRODUCT;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import store.exception.store.StoreErrorStatus;
 import store.exception.store.StoreException;
 import store.model.store.StoreRoom;
 
