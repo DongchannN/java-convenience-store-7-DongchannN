@@ -1,9 +1,9 @@
-package store.util;
+package store.util.converter;
 
 import java.util.List;
-import store.model.Product;
-import store.model.Products;
-import store.model.Promotions;
+import store.model.store.product.Product;
+import store.model.store.product.Products;
+import store.model.store.promotion.Promotions;
 
 public class ProductConverter {
     private static final int PROMOTION_COLUMN_SIZE = 4;

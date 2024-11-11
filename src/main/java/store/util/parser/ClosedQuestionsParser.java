@@ -1,4 +1,4 @@
-package store.util;
+package store.util.parser;
 
 public class ClosedQuestionsParser {
     private ClosedQuestionsParser() {

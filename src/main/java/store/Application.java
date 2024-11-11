@@ -1,6 +1,6 @@
 package store;
 
-import store.model.StoreRoom;
+import store.model.store.StoreRoom;
 import store.util.StoreRoomLoader;
 import store.view.InputView;
 import store.view.OutputView;

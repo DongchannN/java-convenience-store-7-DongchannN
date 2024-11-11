@@ -1,4 +1,4 @@
-package store.model;
+package store.model.store.promotion;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import org.assertj.core.api.Assertions;

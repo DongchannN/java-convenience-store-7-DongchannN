@@ -1,7 +1,8 @@
 package store.view;
 
-import store.model.Payment;
-import store.model.StoreRoom;
+import store.model.order.Payment;
+import store.model.store.StoreRoom;
+import store.view.formatter.OutputFormatter;
 
 public class OutputView {
 

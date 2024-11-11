@@ -1,8 +1,10 @@
-package store.model;
+package store.model.order;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.util.Map;
 import java.util.stream.Collectors;
+import store.model.store.StoreRoom;
+import store.model.store.product.Product;
 
 public class Payment {
     private final PurchaseOrder purchaseOrder;

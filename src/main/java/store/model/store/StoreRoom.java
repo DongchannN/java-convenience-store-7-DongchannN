@@ -1,7 +1,9 @@
-package store.model;
+package store.model.store;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.util.Map;
+import store.model.store.product.Product;
+import store.model.store.product.Products;
 
 public class StoreRoom {
     private final Products generalProducts;

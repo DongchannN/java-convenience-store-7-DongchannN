@@ -1,4 +1,4 @@
-package store.util;
+package store.util.reader;
 
 import java.util.function.Function;
 import java.util.function.Supplier;

@@ -1,12 +1,12 @@
 package store;
 
 import java.util.Map;
-import store.model.Payment;
-import store.model.PurchaseOrder;
-import store.model.StoreRoom;
-import store.util.ClosedQuestionsParser;
-import store.util.PurchaseParser;
-import store.util.RepeatableReader;
+import store.model.order.Payment;
+import store.model.order.PurchaseOrder;
+import store.model.store.StoreRoom;
+import store.util.parser.ClosedQuestionsParser;
+import store.util.parser.PurchaseParser;
+import store.util.reader.RepeatableReader;
 import store.view.InputView;
 import store.view.OutputView;
 

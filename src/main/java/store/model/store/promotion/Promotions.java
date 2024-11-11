@@ -1,4 +1,4 @@
-package store.model;
+package store.model.store.promotion;
 
 import java.util.HashSet;
 import java.util.List;

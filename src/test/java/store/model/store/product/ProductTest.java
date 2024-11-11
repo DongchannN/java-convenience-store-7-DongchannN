@@ -1,4 +1,4 @@
-package store.model;
+package store.model.store.product;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

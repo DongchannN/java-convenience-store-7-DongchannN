@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import store.util.parser.PurchaseParser;
 
 @DisplayName("사용자 입력 구매목록 파싱 테스트")
 class PurchaseParserTest {

@@ -1,10 +1,11 @@
-package store.model;
+package store.model.order;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import store.model.store.StoreRoom;
 
 public class PurchaseOrder {
     private final Map<String, Integer> purchaseOrder;

@@ -1,9 +1,9 @@
-package store.view;
+package store.view.formatter;
 
-import store.model.Payment;
-import store.model.Product;
-import store.model.Products;
-import store.model.StoreRoom;
+import store.model.order.Payment;
+import store.model.store.product.Product;
+import store.model.store.product.Products;
+import store.model.store.StoreRoom;
 
 public class OutputFormatter {
     private static final String WELCOME_MESSAGE = "안녕하세요. W편의점입니다.\n현재 보유하고 있는 상품입니다.";

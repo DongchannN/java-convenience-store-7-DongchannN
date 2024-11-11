@@ -1,4 +1,4 @@
-package store.model;
+package store.model.order;
 
 import static camp.nextstep.edu.missionutils.DateTimes.now;
 
@@ -8,6 +8,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import store.model.store.StoreRoom;
+import store.model.store.product.Product;
+import store.model.store.product.Products;
+import store.model.store.promotion.Promotion;
 
 @DisplayName("결제 관련 모델 테스트")
 class PaymentTest {

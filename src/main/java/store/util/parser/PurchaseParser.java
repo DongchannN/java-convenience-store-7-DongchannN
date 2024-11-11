@@ -1,4 +1,4 @@
-package store.util;
+package store.util.parser;
 
 import java.util.Arrays;
 import java.util.Map;

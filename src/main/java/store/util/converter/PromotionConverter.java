@@ -1,11 +1,11 @@
-package store.util;
+package store.util.converter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import store.model.Promotion;
-import store.model.Promotions;
+import store.model.store.promotion.Promotion;
+import store.model.store.promotion.Promotions;
 
 public class PromotionConverter {
     private static final int PROMOTION_COLUMN_SIZE = 5;

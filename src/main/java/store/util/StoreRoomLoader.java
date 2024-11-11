@@ -1,9 +1,12 @@
 package store.util;
 
 import java.util.List;
-import store.model.Products;
-import store.model.Promotions;
-import store.model.StoreRoom;
+import store.model.store.product.Products;
+import store.model.store.promotion.Promotions;
+import store.model.store.StoreRoom;
+import store.util.converter.ProductConverter;
+import store.util.converter.PromotionConverter;
+import store.util.reader.StoreFileReader;
 
 public class StoreRoomLoader {
     private StoreRoomLoader() {
