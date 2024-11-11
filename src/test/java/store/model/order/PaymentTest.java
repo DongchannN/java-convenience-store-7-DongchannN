@@ -44,7 +44,7 @@ class PaymentTest {
         Payment payment = Payment.from(purchaseOrder, storeRoom, hasMembership);
 
         // when
-        Map<String, Integer> giveaways = payment.getPromotionalProducts();
+        Map<String, Integer> giveaways = payment.extractPromotionalProducts();
 
         // then
         Assertions.assertThat(giveaways)

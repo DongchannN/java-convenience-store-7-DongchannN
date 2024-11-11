@@ -29,7 +29,7 @@ public class Payment {
     }
 
     public long calculatePromotionalDiscount() {
-        return getPromotionalProducts().entrySet().stream()
+        return extractPromotionalProducts().entrySet().stream()
                 .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
                 .sum();
     }
@@ -39,7 +39,7 @@ public class Payment {
             return 0;
         }
         long targetPrice = purchaseOrder.getPurchaseOrder().entrySet().stream()
-                .filter(entry -> !getPromotionalProducts().containsKey(entry.getKey()))
+                .filter(entry -> !extractPromotionalProducts().containsKey(entry.getKey()))
                 .mapToLong(entry -> (long) storeRoom.getProductPrice(entry.getKey()) * entry.getValue())
                 .sum();
         return (long) (targetPrice * 0.3);
@@ -68,16 +68,13 @@ public class Payment {
         if (product != null
                 && product.isPromotionPeriod(DateTimes.now())
                 && product.getStock() > product.getPromotionUnit()) {
-            return quantity / product.getPromotionUnit();
+            int promotionalQuantity = quantity - storeRoom.getNonPromotionalQuantity(productName, quantity);
+            return promotionalQuantity / product.getPromotionUnit();
         }
         return 0;
     }
 
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    public Map<String, Integer> getPromotionalProducts() {
+    public Map<String, Integer> extractPromotionalProducts() {
         return purchaseOrder.getPurchaseOrder().entrySet().stream()
                 .map(entry -> Map.entry(
                         entry.getKey(),
@@ -85,5 +82,9 @@ public class Payment {
                 ))
                 .filter(entry -> entry.getValue() > 0)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
     }
 }
