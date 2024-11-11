@@ -1,6 +1,8 @@
 package store.util.parser;
 
-import store.exception.input.InvalidInputException;
+import static store.exception.input.InputErrorStatus.INVALID_INPUT;
+
+import store.exception.input.UserInputException;
 
 public class ClosedQuestionsParser {
     private ClosedQuestionsParser() {
@@ -14,10 +16,10 @@ public class ClosedQuestionsParser {
 
     private static void validateQuestionFormat(String rawAnswer) {
         if (rawAnswer.length() != 1) {
-            throw new InvalidInputException();
+            throw new UserInputException(INVALID_INPUT);
         }
         if (!rawAnswer.equals("Y") && !rawAnswer.equals("N")) {
-            throw new InvalidInputException();
+            throw new UserInputException(INVALID_INPUT);
         }
     }
 }

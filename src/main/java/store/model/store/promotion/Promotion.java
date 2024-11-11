@@ -1,6 +1,10 @@
 package store.model.store.promotion;
 
+import static store.exception.store.StoreErrorStatus.INVALID_PROMOTION_BUY_AMOUNT;
+import static store.exception.store.StoreErrorStatus.INVALID_PROMOTION_GIVE_AMOUNT;
+
 import java.time.LocalDateTime;
+import store.exception.store.StoreException;
 
 public class Promotion {
     private final String name;
@@ -37,13 +41,13 @@ public class Promotion {
 
     private void validateBuyAmount(int buyAmount) {
         if (buyAmount < 1) {
-            throw new IllegalArgumentException("구매 개수는 0 이하가 될 수 없습니다.");
+            throw new StoreException(INVALID_PROMOTION_BUY_AMOUNT);
         }
     }
 
     private void validateGiveAmount(int giveAmount) {
         if (giveAmount != 1) {
-            throw new IllegalArgumentException("추가 증정은 하나만 가능합니다.");
+            throw new StoreException(INVALID_PROMOTION_GIVE_AMOUNT);
         }
     }
 

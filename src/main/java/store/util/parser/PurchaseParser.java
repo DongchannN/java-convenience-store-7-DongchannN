@@ -1,9 +1,11 @@
 package store.util.parser;
 
+import static store.exception.input.InputErrorStatus.INVALID_FORMAT;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
-import store.exception.input.IllegalInputFormatException;
+import store.exception.input.UserInputException;
 
 public class PurchaseParser {
 
@@ -41,29 +43,29 @@ public class PurchaseParser {
         try {
             return Integer.parseInt(rawQuantity);
         } catch (NumberFormatException e) {
-            throw new IllegalInputFormatException();
+            throw new UserInputException(INVALID_FORMAT);
         }
     }
 
     private static void validateElementFormat(String element) {
         if (!(element.charAt(0) == START_OF_ITEM && element.charAt(element.length() - 1) == END_OF_ITEM)) {
-            throw new IllegalInputFormatException();
+            throw new UserInputException(INVALID_FORMAT);
         }
         String content = element.substring(1, element.length() - 1);
         if (content.contains(String.valueOf(START_OF_ITEM)) || content.contains(String.valueOf(END_OF_ITEM))) {
-            throw new IllegalInputFormatException();
+            throw new UserInputException(INVALID_FORMAT);
         }
     }
 
     private static void validateKeyValuePair(String[] keyValue) {
         if (keyValue.length != 2) {
-            throw new IllegalInputFormatException();
+            throw new UserInputException(INVALID_FORMAT);
         }
     }
 
     private static void validateBuyAmount(int buyAmount) {
         if (buyAmount <= 0) {
-            throw new IllegalInputFormatException();
+            throw new UserInputException(INVALID_FORMAT);
         }
     }
 }

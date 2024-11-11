@@ -1,7 +1,10 @@
 package store.model.store;
 
+import static store.exception.store.StoreErrorStatus.PRODUCT_PRICE_INCONSISTENT;
+
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.util.Map;
+import store.exception.store.StoreException;
 import store.model.store.product.Product;
 import store.model.store.product.Products;
 
@@ -102,7 +105,7 @@ public class StoreRoom {
                     return generalProduct.getPrice() != product.getPrice();
                 }).count();
         if (priceNotMatched > 0) {
-            throw new IllegalArgumentException("일반 상품과 프로모션 상품의 가격은 동일해야합니다.");
+            throw new StoreException(PRODUCT_PRICE_INCONSISTENT);
         }
     }
 

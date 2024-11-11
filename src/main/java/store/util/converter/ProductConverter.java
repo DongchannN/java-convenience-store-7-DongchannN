@@ -1,5 +1,8 @@
 package store.util.converter;
 
+import static store.exception.reader.FileReadErrorStatus.INVALID_COLUMN_CONTENT;
+import static store.exception.reader.FileReadErrorStatus.INVALID_FILE_CONTENT;
+
 import java.util.List;
 import store.exception.reader.FileReadException;
 import store.model.store.product.Product;
@@ -35,16 +38,16 @@ public class ProductConverter {
 
     private static void validateRawProducts(List<List<String>> rawPromotions) {
         if (rawPromotions == null || rawPromotions.isEmpty()) {
-            throw new FileReadException();
+            throw new FileReadException(INVALID_FILE_CONTENT);
         }
     }
 
     private static void validateSize(List<String> rawPromotion) {
         if (rawPromotion == null || rawPromotion.isEmpty()) {
-            throw new FileReadException();
+            throw new FileReadException(INVALID_FILE_CONTENT);
         }
         if (rawPromotion.size() != PROMOTION_COLUMN_SIZE) {
-            throw new FileReadException();
+            throw new FileReadException(INVALID_COLUMN_CONTENT);
         }
     }
 
@@ -52,7 +55,7 @@ public class ProductConverter {
         try {
             return Integer.parseInt(rawNumber.trim());
         } catch (NumberFormatException e) {
-            throw new FileReadException();
+            throw new FileReadException(INVALID_COLUMN_CONTENT);
         }
     }
 }

@@ -1,6 +1,10 @@
 package store.model.store.product;
 
+import static store.exception.store.StoreErrorStatus.INVALID_PRODUCT_PRICE;
+import static store.exception.store.StoreErrorStatus.INVALID_PRODUCT_STOCK;
+
 import java.time.LocalDateTime;
+import store.exception.store.StoreException;
 import store.model.store.promotion.Promotion;
 
 public class Product {
@@ -55,13 +59,13 @@ public class Product {
 
     private void validatePrice(int price) {
         if (price <= 0) {
-            throw new IllegalArgumentException("가격은 0 이하가 될 수 없습니다.");
+            throw new StoreException(INVALID_PRODUCT_PRICE);
         }
     }
 
     private void validateStock(int stock) {
         if (stock < 0) {
-            throw new IllegalArgumentException("재고는 음수가 될 수 없습니다.");
+            throw new StoreException(INVALID_PRODUCT_STOCK);
         }
     }
 

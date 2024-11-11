@@ -3,6 +3,8 @@ package store.model.store.product;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+import store.exception.store.StoreErrorStatus;
+import store.exception.store.StoreException;
 
 public class Products {
     private final List<Product> products;
@@ -61,7 +63,7 @@ public class Products {
         long totalCount = products.stream()
                 .filter(Product::isGeneralProduct).count();
         if (distinctCount != totalCount) {
-            throw new IllegalArgumentException("상품이 중복되었습니다.");
+            throw new StoreException(StoreErrorStatus.DUPLICATE_GENERAL_PRODUCT);
         }
     }
 
@@ -74,7 +76,7 @@ public class Products {
         long totalCount = products.stream()
                 .filter(Product::isPromotionProduct).count();
         if (distinctCount != totalCount) {
-            throw new IllegalArgumentException("하나의 상품에 두개의 프로모션이 적용될 수 없습니다.");
+            throw new StoreException(StoreErrorStatus.DUPLICATE_PROMOTION_PRODUCT);
         }
     }
 

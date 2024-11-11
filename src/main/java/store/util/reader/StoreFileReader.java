@@ -1,5 +1,8 @@
 package store.util.reader;
 
+import static store.exception.reader.FileReadErrorStatus.INVALID_FILE_PATH;
+import static store.exception.reader.FileReadErrorStatus.UNEXPECTED_IO_ERROR;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +24,7 @@ public class StoreFileReader {
                     .map(StoreFileReader::parseLine)
                     .toList();
         } catch (IOException e) {
-            throw new FileReadException();
+            throw new FileReadException(UNEXPECTED_IO_ERROR);
         }
     }
 
@@ -31,11 +34,11 @@ public class StoreFileReader {
 
     public static void validateFileReadable(String fileName) {
         if (fileName == null || fileName.trim().isEmpty()) {
-            throw new FileReadException();
+            throw new FileReadException(INVALID_FILE_PATH);
         }
         Path path = Paths.get(fileName);
         if (!(Files.exists(path) && Files.isReadable(path))) {
-            throw new FileReadException();
+            throw new FileReadException(INVALID_FILE_PATH);
         }
     }
 }
