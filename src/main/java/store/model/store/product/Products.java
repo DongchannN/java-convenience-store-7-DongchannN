@@ -8,6 +8,8 @@ public class Products {
     private final List<Product> products;
 
     public Products(List<Product> products) {
+        validateDistinctGeneralProducts(products);
+        validateDistinctPromotionProduct(products);
         this.products = products;
     }
 
@@ -48,6 +50,30 @@ public class Products {
         return products.stream()
                 .filter(Product::isGeneralProduct)
                 .anyMatch(compared -> compared.isNameEquals(product));
+    }
+
+    private void validateDistinctGeneralProducts(List<Product> products) {
+        long distinctCount = products.stream()
+                .filter(Product::isGeneralProduct)
+                .distinct().count();
+
+        long totalCount = products.stream()
+                .filter(Product::isGeneralProduct).count();
+        if (distinctCount != totalCount) {
+            throw new IllegalArgumentException("상품이 중복되었습니다.");
+        }
+    }
+
+    private void validateDistinctPromotionProduct(List<Product> products) {
+        long distinctCount = products.stream()
+                .filter(Product::isPromotionProduct)
+                .distinct().count();
+
+        long totalCount = products.stream()
+                .filter(Product::isPromotionProduct).count();
+        if (distinctCount != totalCount) {
+            throw new IllegalArgumentException("하나의 상품에 두개의 프로모션이 적용될 수 없습니다.");
+        }
     }
 
     public List<Product> getProducts() {
